@@ -1,0 +1,35 @@
+from typing import List
+from pydantic import BaseModel, ConfigDict, Field
+
+
+# --- SCHEMAS CHO EMPLOYEE ---
+class EmployeeCreate(BaseModel):
+    employee_code: str
+    full_name: str
+    department_id: int
+
+
+class EmployeeResponse(BaseModel):
+    id: int
+    employee_code: str
+    full_name: str
+    department_id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+# --- SCHEMAS CHO DEPARTMENT ---
+class DepartmentCreate(BaseModel):
+    name: str
+    status: str
+    max_employees: int
+
+
+class DepartmentDetailResponse(BaseModel):
+    id: int
+    name: str
+    status: str
+    max_employees: int
+    employees: List[EmployeeResponse] = Field(default_factory=list)
+
+    model_config = ConfigDict(from_attributes=True)

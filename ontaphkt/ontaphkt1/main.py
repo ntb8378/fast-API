@@ -43,3 +43,18 @@ def get_book_id(
     db:Session = Depends(get_db)
 ):
     return crud.get_book_id(db, id)
+
+@app.put("/books/{id}")
+def put_book_id(
+    book: BookCreate,
+    id : int,
+    db:Session = Depends(get_db)
+):
+    return crud.put_book_id(db, id, book)
+
+@app.delete("/books/{id}")
+def delete_book_id(
+    id: int,
+    db:Session= Depends(get_db)
+):
+    return crud.delete_books_id(db,id)
