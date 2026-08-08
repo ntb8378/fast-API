@@ -1,16 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from schemas import BookCreate, BookResponse
 
 app = FastAPI()
-
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    price: float
-    pages: int
-
-class BookResponse(BookCreate):
-    id: int
 
 books_db = []
 book_id_counter = 1
