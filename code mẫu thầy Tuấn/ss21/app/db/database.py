@@ -1,0 +1,26 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+# Chuỗi kết nối MySQL
+# Cú pháp: mysql+pymysql://<username>:<password>@<host>:<port>/<database_name>
+DATABASE_URL = "mysql+pymysql://root:123456@localhost:3306/student_db"
+
+# Khởi tạo SQLAlchemy Engine để kết nối tới MySQL
+engine = create_engine(DATABASE_URL)
+
+# Tạo SessionLocal class, mỗi instance của class này sẽ là một phiên làm việc (session) với database
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base class cho tất cả các ORM models
+Base = declarative_base()
+
+def get_db():
+    """
+    Dependency generator để cung cấp database session cho mỗi request.
+    Đảm bảo session được đóng sau khi request hoàn thành (Exception handling scope).
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
